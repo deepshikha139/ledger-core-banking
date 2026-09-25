@@ -1,0 +1,26 @@
+{
+  "name": "ledger-core-banking",
+  "version": "1.0.0",
+  "description": "A banking ledger system built in TypeScript that handles accounts, backdated transactions, overdraft fees, interest, and card authorizations.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --import tsx --test test/*.test.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepshikha139/ledger-core-banking.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/deepshikha139/ledger-core-banking/issues"
+  },
+  "homepage": "https://github.com/deepshikha139/ledger-core-banking#readme",
+  "devDependencies": {
+    "@types/node": "^26.6.2",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}
