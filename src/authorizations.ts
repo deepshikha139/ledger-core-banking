@@ -59,7 +59,8 @@ export class AuthorizationBook {
   /**
    * Settles an approved hold: moves the final amount and releases the
    * whole hold. Returns an error (and moves no money) if the authorization
-   * is unknown, belongs to another account, or is no longer active.
+   * is unknown, belongs to another account, is no longer active, or the
+   * settlement is larger than the approved hold.
    */
   settle(ledger: Ledger, event: SettlementEvent): ProcessingError | undefined {
     const auth = this.#auths.get(event.authId);
@@ -82,6 +83,16 @@ export class AuthorizationBook {
         accountId: event.accountId,
         code: "AUTHORIZATION_NOT_ACTIVE",
         message: `Settlement rejected: ${event.authId} is ${auth.status}. No funds moved.`,
+      };
+    }
+
+    if (event.amount > auth.amount) {
+      return {
+        day: event.bookedDay,
+        eventId: event.id,
+        accountId: event.accountId,
+        code: "SETTLEMENT_EXCEEDS_HOLD",
+        message: `Settlement of ${formatMinor(event.amount, currency)} exceeds hold of ${formatMinor(auth.amount, currency)} for ${event.authId}. No funds moved.`,
       };
     }
 

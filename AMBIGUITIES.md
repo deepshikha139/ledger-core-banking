@@ -79,3 +79,10 @@ Draft written before coding; refined during the build.
 - **Unclear:** the fee is AED 25.00; ACC-002 is in BHD.
 - **Chosen:** not handled, because ACC-002 never goes negative in this window.
 - **Production:** would need a rule (a BHD fee amount or an FX conversion policy). Listed as a simplification.
+
+## 16. Settlement bigger than the hold
+- **Unclear:** the brief shows a settlement smaller than the hold (Auth-A: hold 200.00, settled 185.00). It does not say what to do if a settlement is bigger than the hold. This doesn't happen in our events, but the code still needs a rule.
+- **Options:** (a) accept any amount; (b) accept a little extra, up to a set limit; (c) reject anything bigger than the hold.
+- **Chosen:** (c). Reject it and log the error `SETTLEMENT_EXCEEDS_HOLD`. No money moves, and the hold stays open so the correct settlement can still come in. Settling for exactly the hold amount is fine.
+- **Why:** same reason as Auth-Z (entry 8): money should only move if it was approved. The customer approved 200.00, not more. If bigger settlements were allowed, someone could hold 1.00 (always approved) and then settle 1,000.00, which skips the balance check completely. Allowing "a little extra" would also need a limit number that the brief doesn't give us.
+- **In a real bank:** some extra is normal, like restaurant tips or fuel pumps. A real system would allow a small extra amount depending on the type of shop. We skipped this to keep the scope small.

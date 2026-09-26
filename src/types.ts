@@ -76,7 +76,7 @@ export type EntryKind =
   | "INTEREST";
 
 export interface LedgerEntry {
-  /** Unique id, e.g. "E1", "E10-2", "FEE-ACC-001-D2". */
+  /** Unique id, e.g. "E1", "E10-2", "FEE-ACC-001-D2-1". */
   readonly entryId: string;
   readonly accountId: string;
   readonly kind: EntryKind;
@@ -102,7 +102,7 @@ export interface Authorization {
   /** Amount held (or requested, if declined), in minor units. */
   readonly amount: number;
   readonly decidedOnDay: Day;
-   /** Available balance after this hold, at decision time (the number that decided it). */
+  /** Available balance after this hold, at decision time (the number that decided it). */
   readonly availableAfterHold: number;
   readonly status: AuthStatus;
   readonly settledAmount?: number;
@@ -114,6 +114,7 @@ export interface Authorization {
 export type ErrorCode =
   | "UNKNOWN_AUTHORIZATION"
   | "AUTHORIZATION_NOT_ACTIVE"
+  | "SETTLEMENT_EXCEEDS_HOLD"
   | "REVERSAL_TARGET_NOT_FOUND"
   | "ALREADY_REVERSED";
 

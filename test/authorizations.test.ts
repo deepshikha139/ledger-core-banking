@@ -78,6 +78,30 @@ describe("AuthorizationBook.settle", () => {
     assert.equal(book.get("Auth-A")?.settledAmount, 18500);
   });
 
+  it("settles for exactly the hold amount (boundary)", () => {
+    const ledger = ledgerAt250();
+    const book = new AuthorizationBook();
+    book.request(ledger, auth("E3", "Auth-A", 20000, 2));
+
+    const error = book.settle(ledger, settlement("E5", "Auth-A", 20000, 4));
+
+    assert.equal(error, undefined);
+    assert.equal(book.get("Auth-A")?.status, "SETTLED");
+  });
+
+  it("rejects a settlement larger than the hold and moves no money", () => {
+    const ledger = ledgerAt250();
+    const book = new AuthorizationBook();
+    book.request(ledger, auth("E3", "Auth-A", 20000, 2));
+    const before = ledger.entries().length;
+
+    const error = book.settle(ledger, settlement("E5", "Auth-A", 20001, 4));
+
+    assert.equal(error?.code, "SETTLEMENT_EXCEEDS_HOLD");
+    assert.equal(ledger.entries().length, before);
+    assert.equal(book.get("Auth-A")?.status, "APPROVED"); // hold stays active
+  });
+
   it("rejects a settlement with no authorization and moves no money (Auth-Z)", () => {
     const ledger = ledgerAt250();
     const book = new AuthorizationBook();
