@@ -1,3 +1,12 @@
+/**
+ * authorizations.ts - holds: approve/decline, settle, reject unknown.
+ *
+ * Decisions are point-in-time: they use the ledger as it is at the moment
+ * the event is processed, and are never re-evaluated later.
+ *
+ * Guiding rule: no money moves without an approval that covers it.
+ */
+
 import type {
   Authorization,
   AuthorizationEvent,
@@ -30,8 +39,8 @@ export class AuthorizationBook {
   }
 
   /**
-   * Rule: approve only if available (ledger − active holds) stays ≥ 0
-   * after this hold. "Ledger" = entries with valueDay ≤ the booked day,
+   * Rule: approve only if available (ledger - active holds) stays >= 0
+   * after this hold. "Ledger" = entries with valueDay <= the booked day,
    * as known right now.
    */
   request(ledger: Ledger, event: AuthorizationEvent): Authorization {
@@ -65,6 +74,7 @@ export class AuthorizationBook {
   settle(ledger: Ledger, event: SettlementEvent): ProcessingError | undefined {
     const auth = this.#auths.get(event.authId);
     const currency = ledger.account(event.accountId).currency;
+    const settlementAmount = `${formatMinor(event.amount, currency)} ${currency}`;
 
     if (!auth || auth.accountId !== event.accountId) {
       return {
@@ -72,7 +82,7 @@ export class AuthorizationBook {
         eventId: event.id,
         accountId: event.accountId,
         code: "UNKNOWN_AUTHORIZATION",
-        message: `Settlement of ${formatMinor(event.amount, currency)} rejected: no authorization ${event.authId} on this account. No funds moved.`,
+        message: `Settlement of ${settlementAmount} rejected: no authorization ${event.authId} on this account. No funds moved.`,
       };
     }
 
@@ -87,12 +97,13 @@ export class AuthorizationBook {
     }
 
     if (event.amount > auth.amount) {
+      const holdAmount = `${formatMinor(auth.amount, currency)} ${currency}`;
       return {
         day: event.bookedDay,
         eventId: event.id,
         accountId: event.accountId,
         code: "SETTLEMENT_EXCEEDS_HOLD",
-        message: `Settlement of ${formatMinor(event.amount, currency)} exceeds hold of ${formatMinor(auth.amount, currency)} for ${event.authId}. No funds moved.`,
+        message: `Settlement of ${settlementAmount} exceeds hold of ${holdAmount} for ${event.authId}. No funds moved.`,
       };
     }
 
