@@ -21,7 +21,7 @@
 - Traced ledger, holds and available balance by hand, day by day, before writing any code.
 - Auth-A approved on Day 2 (available after hold = 50.00).
 - Auth-A settled for 185.00 against a 200.00 hold; decided to release the full hold.
-- Decided to reject Auth-Z (no matching authorization) and log it as an error, considered force post as the alternative.
+- Decided to reject Auth-Z (no matching authorization) and log it as an error, considered force post` as the alternative.
 - Worked out that Auth-B (Day 5) is declined: after E7, available would be -245.00.
 
 ### 12:00PM–01:00PM — Design decisions locked (before coding)
@@ -30,3 +30,7 @@
 - Locked 4 invariants: events never change, replay is deterministic, derived state can be rebuilt from events, decisions are point-in-time.
 - Found that E10 (Day 5) is listed after E9 (Day 6); decided not to move the clock backwards.
 - Drafted AMBIGUITIES.md with every decision so far.
+
+### 04:00PM–04:30PM — Add Logics and test cases
+- Added money.ts for calculation related logic and added test cases for that
+- Added lodger.ts file and to capture money movement and added test cases
