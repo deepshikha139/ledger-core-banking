@@ -34,3 +34,20 @@
 ### 04:00PM–04:30PM — Add Logics and test cases
 - Added money.ts for calculation related logic and added test cases for that
 - Added lodger.ts file and to capture money movement and added test cases
+
+### 04:30PM–04:40PM — Authorizations
+- Added `authorizations.ts` with tests: approve or decline holds, settle, reject unknown settlements.
+- Added `availableAfterHold` to each authorization, to record the number that decided it.
+- Tested the boundaries: exactly 0 available is approved, below 0 is declined.
+- Decision: a settlement bigger than the hold is rejected (AMBIGUITIES entry 16). Same reason as Auth-Z: money only moves if it was approved.
+
+### 04:40–04:50PM — Overdraft fees
+- Changed the build order: fees and interest before the engine, so the engine is written once.
+- Added `fees.ts` with tests: end-of-day check of every past day, oldest first.
+- Tests confirm E7 causes fees on Days 2, 4 and 5, not just one. Day 3 escapes at +5.00.
+- Tests confirm that after E9, all three fees are refunded with new entries; nothing is deleted.
+
+### 04:50PM–05:00PM — Interest
+- Added `interest.ts` with tests: daily interest on final balances, rounded each day, paid once on Day 6.
+- ACC-001 earns 1.03 AED (closing 466.03). ACC-002 earns 0.008 BHD (closing 10.008).
+- Daily amounts are added up before the credit is posted, so interest never earns interest.
