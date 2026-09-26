@@ -51,3 +51,11 @@
 - Added `interest.ts` with tests: daily interest on final balances, rounded each day, paid once on Day 6.
 - ACC-001 earns 1.03 AED (closing 466.03). ACC-002 earns 0.008 BHD (closing 10.008).
 - Daily amounts are added up before the credit is posted, so interest never earns interest.
+
+### 08:00PM–08:10PM — Scenario data and replay engine
+- Added `scenario.ts`: the brief's accounts and E1–E10, written as data.
+- Added `engine.ts`: replays events in list order, closes each day (fees → interest on last day → snapshot), reports restated past days.
+- Late events (E10) are processed on the day they arrive; the clock never goes back.
+- Added `scenario.test.ts`: every number from my hand-trace is now checked by a test.
+- Added `engine.test.ts`: cases the brief doesn't show (double reversal, event after the window, late authorization).
+- All tests pass. Confirmed: Auth-B declined (-245.00), E7 causes 3 fees, final ACC-001 466.03, ACC-002 10.008.

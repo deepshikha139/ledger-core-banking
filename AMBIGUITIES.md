@@ -86,3 +86,18 @@ Draft written before coding; refined during the build.
 - **Chosen:** (c). Reject it and log the error `SETTLEMENT_EXCEEDS_HOLD`. No money moves, and the hold stays open so the correct settlement can still come in. Settling for exactly the hold amount is fine.
 - **Why:** same reason as Auth-Z (entry 8): money should only move if it was approved. The customer approved 200.00, not more. If bigger settlements were allowed, someone could hold 1.00 (always approved) and then settle 1,000.00, which skips the balance check completely. Allowing "a little extra" would also need a limit number that the brief doesn't give us.
 - **In a real bank:** some extra is normal, like restaurant tips or fuel pumps. A real system would allow a small extra amount depending on the type of shop. We skipped this to keep the scope small.
+
+## 17. Which value date does a reversal use?
+- **Unclear:** E9 has its own value date (Day 2). It happens to match E7, but the brief doesn't say what to do if they were different.
+- **Chosen:** the reversal uses its own value date, as given in the event.
+- **Why:** the event tells us when the reversal should count, so we follow it. In our data it matches E7, so the result is the same either way.
+
+## 18. Late events of any type
+- **Unclear:** entry 13 covers E10. But what if a late event were an authorization?
+- **Chosen:** every late event is processed on the day it actually arrives. An authorization is decided using that day's balance. The ledger entry records the day it was really processed, not the day written on the event. A note is printed for every late event.
+- **Why:** the system can only use what it knows at the moment it acts. Pretending it happened on an earlier day would mean using information the system didn't have then.
+
+## 19. Reversing an event with several entries
+- **Unclear:** E10 creates 3 entries. What would reversing E10 mean?
+- **Chosen:** a reversal cancels every entry the original event created, one reversal entry each.
+- **Why:** reversing an event should undo all of it, not just part.
