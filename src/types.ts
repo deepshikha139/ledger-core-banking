@@ -102,6 +102,8 @@ export interface Authorization {
   /** Amount held (or requested, if declined), in minor units. */
   readonly amount: number;
   readonly decidedOnDay: Day;
+   /** Available balance after this hold, at decision time (the number that decided it). */
+  readonly availableAfterHold: number;
   readonly status: AuthStatus;
   readonly settledAmount?: number;
   readonly settledOnDay?: Day;
