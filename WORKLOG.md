@@ -82,7 +82,11 @@ AI tools (Claude) were used throughout, as the brief allows.
 - Kept it in its own folder with its own script (`npm run test:failing`), so `npm test` stays green.
 - Added AMBIGUITIES entry 20 to back the failing test with a written decision.
 
-### HH:MM–HH:MM — Repo review and cleanup
+### 09:00PM–10:00PM — Repo review and cleanup
 - Reviewed the repo on GitHub with AI help.
 - Removed `notes.ts`: it held my first reading of the brief, which assumed one fee on Day 2, an approved Auth-B, equal instalments, and a fee that gets "wiped out". The hand-trace and tests proved all four wrong. It stays in git history as a record of how my understanding changed.
 - Fixed worklog duplicates and typos; removed "(confirm)" from AMBIGUITIES entry 9.
+
+### 10:00PM–10:30PM — Update README and other documents
+- Wrote README, NUMBERS.md and REJECTED.md.
+- Update ARCHITECTURE.md
