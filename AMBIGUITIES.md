@@ -101,3 +101,10 @@ Draft written before coding; refined during the build.
 - **Unclear:** E10 creates 3 entries. What would reversing E10 mean?
 - **Chosen:** a reversal cancels every entry the original event created, one reversal entry each.
 - **Why:** reversing an event should undo all of it, not just part.
+
+## 20. Should a decline be revisited if its cause is later reversed?
+- **Unclear:** Auth-B was declined only because of E7. E9 later shows E7 was wrong. The brief doesn't say whether the decline should change.
+- **Options:** (a) keep the decline; (b) re-run the decision and approve it.
+- **Chosen:** (a). Decisions are never re-run.
+- **Why:** the merchant was already told "no" on Day 5. Changing the answer later changes nothing real, and it would make history unstable.
+- **Cost:** the customer was refused because of an error, and the system can't tell which declines were affected. This is shown by the deliberately failing test.

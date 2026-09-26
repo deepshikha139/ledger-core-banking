@@ -7,7 +7,8 @@
   "scripts": {
     "start": "tsx src/run.ts",
     "test": "node --import tsx --test test/*.test.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:failing": "node --import tsx --test test/design-limits/*.test.ts"
   },
   "repository": {
     "type": "git",

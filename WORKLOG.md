@@ -59,3 +59,21 @@
 - Added `scenario.test.ts`: every number from my hand-trace is now checked by a test.
 - Added `engine.test.ts`: cases the brief doesn't show (double reversal, event after the window, late authorization).
 - All tests pass. Confirmed: Auth-B declined (-245.00), E7 causes 3 fees, final ACC-001 466.03, ACC-002 10.008.
+
+### 08:10PM–08:20PM — Added report + run script
+- Added `report.ts`
+- Run Scripts
+- output matches
+- fixed currency in error messages".
+
+### 08:20PM–08:30PM — Printed report and run script
+- Added `report.ts` (formats results as text) and `run.ts` (`npm start` prints the report).
+- Output shows, per day: closing balances, holds, available, restated past days, fees, authorization states, errors, and interest on Day 6.
+- Checked the full output against my hand-trace: every number matches.
+- Fixed error messages to show the currency (e.g. "180.00 AED").
+- Used plain ASCII characters so the output looks the same in any terminal.
+
+### 08:30–08:45 — Deliberately failing test
+- Chose a design limit to expose: Auth-B stays declined even after E9 reverses E7.
+- Added `test/design-limits/auth-b-after-reversal.test.ts`, with comments on what it reveals, why I keep the design, and what production would add.
+- Kept it in its own folder with its own script (`npm run test:failing`), so `npm test` stays green.
