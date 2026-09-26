@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "type": "module",
   "description": "A banking ledger system built in TypeScript that handles accounts, backdated transactions, overdraft fees, interest, and card authorizations.",
-  "main": "index.js",
   "scripts": {
     "start": "tsx src/run.ts",
     "test": "node --import tsx --test test/*.test.ts",

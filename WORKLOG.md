@@ -1,12 +1,21 @@
 # Worklog
 
+## How I used AI
+
+AI tools (Claude) were used throughout, as the brief allows.
+- **Concepts and design:** I used AI to explain concepts and to list options. I made every design decision myself (see AMBIGUITIES.md) and challenged AI suggestions where I disagreed.
+- **Code:** most code was drafted with AI help. For every file I read it, ran the type check and tests, and checked the numbers against my own hand-trace before committing.
+- **Numbers:** I traced Days 1–4 by hand before any code was written, and checked every printed number against that trace.
+
 ## 2026-09-25
+
 ### 02:00PM–04:00PM — Read brief, clarified concepts
 - Read Part 1 and Part 2.
 - Built a cheat sheet with AI help; corrected my understanding of value dates vs booked dates and point-in-time decisions.
 - Decision: no frontend, since the brief says "no UI".
 
 ## 2026-09-26
+
 ### 01:00AM–02:00AM — Repo setup and installation troubleshooting
 - Created the repo, initialized Node, and installed TypeScript.
 - Set up `tsconfig.json` with strict mode turned on.
@@ -21,7 +30,7 @@
 - Traced ledger, holds and available balance by hand, day by day, before writing any code.
 - Auth-A approved on Day 2 (available after hold = 50.00).
 - Auth-A settled for 185.00 against a 200.00 hold; decided to release the full hold.
-- Decided to reject Auth-Z (no matching authorization) and log it as an error, considered force post` as the alternative.
+- Decided to reject Auth-Z (no matching authorization) and log it as an error; considered "force post" as the alternative.
 - Worked out that Auth-B (Day 5) is declined: after E7, available would be -245.00.
 
 ### 12:00PM–01:00PM — Design decisions locked (before coding)
@@ -31,9 +40,9 @@
 - Found that E10 (Day 5) is listed after E9 (Day 6); decided not to move the clock backwards.
 - Drafted AMBIGUITIES.md with every decision so far.
 
-### 04:00PM–04:30PM — Add Logics and test cases
-- Added money.ts for calculation related logic and added test cases for that
-- Added lodger.ts file and to capture money movement and added test cases
+### 04:00PM–04:30PM — Money and ledger
+- Added `money.ts` (integer minor units, half-up rounding, exact split) with tests.
+- Added `types.ts` and `ledger.ts` (append-only store of money movements, balance by value day) with tests.
 
 ### 04:30PM–04:40PM — Authorizations
 - Added `authorizations.ts` with tests: approve or decline holds, settle, reject unknown settlements.
@@ -41,7 +50,7 @@
 - Tested the boundaries: exactly 0 available is approved, below 0 is declined.
 - Decision: a settlement bigger than the hold is rejected (AMBIGUITIES entry 16). Same reason as Auth-Z: money only moves if it was approved.
 
-### 04:40–04:50PM — Overdraft fees
+### 04:40PM–04:50PM — Overdraft fees
 - Changed the build order: fees and interest before the engine, so the engine is written once.
 - Added `fees.ts` with tests: end-of-day check of every past day, oldest first.
 - Tests confirm E7 causes fees on Days 2, 4 and 5, not just one. Day 3 escapes at +5.00.
@@ -60,20 +69,20 @@
 - Added `engine.test.ts`: cases the brief doesn't show (double reversal, event after the window, late authorization).
 - All tests pass. Confirmed: Auth-B declined (-245.00), E7 causes 3 fees, final ACC-001 466.03, ACC-002 10.008.
 
-### 08:10PM–08:20PM — Added report + run script
-- Added `report.ts`
-- Run Scripts
-- output matches
-- fixed currency in error messages".
-
-### 08:20PM–08:30PM — Printed report and run script
+### 08:10PM–08:30PM — Printed report and run script
 - Added `report.ts` (formats results as text) and `run.ts` (`npm start` prints the report).
 - Output shows, per day: closing balances, holds, available, restated past days, fees, authorization states, errors, and interest on Day 6.
 - Checked the full output against my hand-trace: every number matches.
 - Fixed error messages to show the currency (e.g. "180.00 AED").
 - Used plain ASCII characters so the output looks the same in any terminal.
 
-### 08:30–08:45 — Deliberately failing test
+### 08:30PM–08:45PM — Deliberately failing test
 - Chose a design limit to expose: Auth-B stays declined even after E9 reverses E7.
 - Added `test/design-limits/auth-b-after-reversal.test.ts`, with comments on what it reveals, why I keep the design, and what production would add.
 - Kept it in its own folder with its own script (`npm run test:failing`), so `npm test` stays green.
+- Added AMBIGUITIES entry 20 to back the failing test with a written decision.
+
+### HH:MM–HH:MM — Repo review and cleanup
+- Reviewed the repo on GitHub with AI help.
+- Removed `notes.ts`: it held my first reading of the brief, which assumed one fee on Day 2, an approved Auth-B, equal instalments, and a fee that gets "wiped out". The hand-trace and tests proved all four wrong. It stays in git history as a record of how my understanding changed.
+- Fixed worklog duplicates and typos; removed "(confirm)" from AMBIGUITIES entry 9.

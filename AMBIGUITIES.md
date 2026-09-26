@@ -47,7 +47,7 @@ Draft written before coding; refined during the build.
 
 ## 9. "Three equal instalments" of BHD 10.000
 - **Unclear:** 10.000 / 3 cannot be split equally at 3 decimals.
-- **Chosen:** 3.333 + 3.333 + 3.334; the extra 0.001 goes to the **last** instalment. (**confirm**)
+- **Chosen:** 3.333 + 3.333 + 3.334; the extra 0.001 goes to the **last** instalment.
 - **Why:** the parts must add up to exactly 10.000. Three equal parts of 3.334 would create 0.002 BHD from nothing.
 
 ## 10. Which balances does interest use?
